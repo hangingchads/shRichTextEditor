@@ -80,15 +80,15 @@ class ShRichTextEditor extends React.Component {
         }
     };
 
-    handleChange(newVal) {
-        this.setState({value: newVal}, ()=> {
+    handleChange(value) {
+        this.setState({value: value}, ()=> {
             if (this.props.validator) {
                 this.props.validator.validate();
             } else {
                 this.validate();
             }
         });
-        this.props.onChange(newVal);
+        this.props.onChange(value);
     };
 
     handleChangeSelection(event) {
@@ -99,12 +99,9 @@ class ShRichTextEditor extends React.Component {
         if (this.props.onFocus) {
             this.props.onFocus(event);
         }
-
+        this.refs.quill.focus();
         this.state.classList.shTouched = true;
         var newState = _.clone(this.state);
-        if(!_.isUndefined(this.refs.input)){
-            this.refs.input.focus();
-        }
         this.setState(newState);
     };
 
@@ -113,15 +110,25 @@ class ShRichTextEditor extends React.Component {
         if (this.props.onBlur) {
             this.props.onBlur(event);
         }
+        this.refs.quill.blur();
         var newState = _.clone(this.state);
         newState.classList.empty = !this.state.value;
         newState.requiredField.showRequired = (this.state.value.length < 1 && this.props.required);
         this.setState(newState);
     };
 
+    getEditor() {
+        return this.refs.quill.getEditor();
+    }
+
     clearText() {
-        this.getEditor().setHTML(this.setDefaultStyle('', this.props.toolbarItems));
+        let defaultText = this.setDefaultStyle('', this.props.toolbarItems);
+        this.getEditor().setHTML(defaultText);
     };
+
+    getText() {
+        return this.getEditor().getHTML();
+    }
 
     setDefaultStyle(value, toolbarItems) {
         let { defaultFont, defaultFontSize } = this.props;

@@ -94,4 +94,100 @@ describe('root', function () {
         expect(root.state.requiredField.showRequired).toBe(false);
     });
 
+    it('should have a validator function', function() {
+        let value = '0';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.validate().isValid).toBe(true);
+    });
+
+    it('should fail validator if there is no value and field is required', function() {
+        let value = null;
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.validate().isValid).toBe(false);
+    });
+
+    it('should call register if a validator is present', function() {
+        let value = null;
+        let validator = {
+            register: _.noop,
+        };
+        spyOn(validator, 'register');
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(validator.register).toHaveBeenCalled();
+    });
+
+    it('should call unregister if a validator is present', function() {
+        let value = null;
+        let validator = {
+            register: _.noop,
+            unregister: _.noop,
+        };
+        spyOn(validator, 'unregister');
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(root).parentNode);
+        expect(validator.unregister).toHaveBeenCalled();
+    });
+
+    it('should be able to unmount a plane component', function() {
+        let value = null;
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(root).parentNode);
+    });
+
+    it('should call set class to touched a form as been submitted by the shForm', function() {
+        let value = null;
+        let validator = {
+            register: _.noop,
+            unregister: _.noop,
+        };
+        spyOn(validator, 'unregister');
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        root.validate(true);
+        expect(root.state.classList.shTouched).toBe(true);
+    });
+
+    it('changing props should update state', function() {
+        let value = '1';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        var props = {
+            value: '0'
+        };
+        root.componentWillReceiveProps(props);
+        expect(root.state.value).toBe('0')
+    });
+
+    it('calling clearText() should clear out the text area', function() {
+        let value = 'test';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        root.clearText();
+        expect(root.getText()).toBe('<div style=""><br></div>');
+    });
+
+    it('should set the default font and size', function() {
+        let value = '';
+        let defaultFont = 'Verdana';
+        let defaultFontSize = 'Large';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} defaultFont={defaultFont} defaultFontSize={defaultFontSize} />);
+        root.clearText();
+        expect(root.getText()).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
+    });
+
+    it('should validate when updating the text', function () {
+        let value = '';
+        let validator = {
+            validate: _.noop,
+            register: _.noop
+        };
+        spyOn(validator, 'validate');
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} validator={validator} />);
+        root.handleChange({
+            target: {
+                value: 'the fat lazy cat'
+            }
+        });
+        expect(validator.validate).toHaveBeenCalled();
+    });
 });
