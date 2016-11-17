@@ -34,7 +34,7 @@ class ShRichTextEditor extends React.Component {
 
         this.state.classList.shInvalid = false;
 
-        if (this.props.required && this.state.value.trim() === '') {
+        if (this.props.required && (this.state.value == null || this.state.value.trim() === '')) {
             this.state.classList.shInvalid = true;
 
             rtn.isValid = false;
@@ -92,14 +92,12 @@ class ShRichTextEditor extends React.Component {
         this.props.onChange(value);
     };
 
-    handleChangeSelection(event) {
-        this.props.onChangeSelection(event);
+    handleChangeSelection(range, oldRange, source) {
+        this.props.onChangeSelection(range, oldRange, source);
     };
 
     handleFocus(event) {
-        if (this.props.onFocus) {
-            this.props.onFocus(event);
-        }
+        this.props.onFocus(event);
         this.refs.quill.focus();
         this.state.classList.shTouched = true;
         var newState = _.clone(this.state);
@@ -108,9 +106,7 @@ class ShRichTextEditor extends React.Component {
 
     handleBlur(event) {
         this.validate();
-        if (this.props.onBlur) {
-            this.props.onBlur(event);
-        }
+        this.props.onBlur(event);
         this.refs.quill.blur();
         var newState = _.clone(this.state);
         newState.classList.empty = !this.state.value;
@@ -139,13 +135,13 @@ class ShRichTextEditor extends React.Component {
             if (defaultFont !== '') {
                 defaultText += 'font-family: ' + defaultFont + ';';
                 toolbarItems[0].items[0].items.forEach(element => {
-                element.selected = (element.label === defaultFont);
+                    element.selected = (element.label === defaultFont);
                 });
             }
             if (defaultFontSize !== '') {
                 defaultText += 'font-size: ' + defaultFontSize + ';';
                 toolbarItems[0].items[2].items.forEach(element => {
-                element.selected = (element.label === defaultFontSize);
+                    element.selected = (element.label === defaultFontSize);
                 });
             }
             defaultText += '"><br></div>';
@@ -247,6 +243,7 @@ ShRichTextEditor.defaultProps = {
     validator: null,
     onChange: _.noop,
     onChangeSelection: _.noop,
+    onFocus: _.noop,
     onBlur: _.noop,
     label: '',
     toolbarItems: getToolbarConfig(),

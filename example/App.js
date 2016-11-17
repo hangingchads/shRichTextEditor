@@ -26,6 +26,10 @@ class App extends React.Component {
         console.log('Called handleFocus()');
     }
 
+    handleChangeSelection(range, oldRange, source) {
+        console.log('Called handleChangeSelection()');
+    }
+
     handleBlur(event) {
         console.log('Called handleBlur()');
     }
@@ -40,7 +44,7 @@ class App extends React.Component {
             <div>
                 <ShForm onSubmit={this.handleSubmit}>
                     <ShRichTextEditor value={this.state.text} required={false} onChange={this.handleChange} onBlur={this.handleBlur}
-                        onFocus={this.handleFocus} label="Text" />
+                        onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" />
                     <button type="submit">Done</button>
                 </ShForm>
             </div>

@@ -21,7 +21,7 @@ describe('root', function () {
         root.handleChange({target:{value:2}});
 
         TestUtils.Simulate.blur(input);
-        expect(rootNode.classList.length).toBe(2)
+        expect(rootNode.classList.length).toBe(2);
     });
 
     it('set classes from parent', function () {
@@ -42,7 +42,7 @@ describe('root', function () {
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
-        expect(blurTest).toBe(1)
+        expect(blurTest).toBe(1);
     });
 
     it('handle having outside onFocus', function () {
@@ -52,11 +52,23 @@ describe('root', function () {
             focusTest = 1;
         };
 
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onFocus={onFocus}/>);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onFocus={onFocus} />);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.focus(input);
-        expect(focusTest).toBe(1)
+        expect(focusTest).toBe(1);
+    });
+
+    it('handle having outside onChangeSelection', function () {
+        let value = '<div>1</div>';
+        let selectionTest = 0;
+        let selectMe = () => {
+            selectionTest = 1;
+        };
+
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChangeSelection={selectMe} />);
+        root.handleChangeSelection(0, 0, root);
+        expect(selectionTest).toBe(1);
     });
 
     it('handle focus', function () {
@@ -102,14 +114,14 @@ describe('root', function () {
     });
 
     it('should fail validator if there is no value and field is required', function() {
-        let value = null;
+        let value = '';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
         expect(root.validate().isValid).toBe(false);
     });
 
     it('should call register if a validator is present', function() {
-        let value = null;
+        let value = '';
         let validator = {
             register: _.noop,
         };
@@ -120,7 +132,7 @@ describe('root', function () {
     });
 
     it('should call unregister if a validator is present', function() {
-        let value = null;
+        let value = '';
         let validator = {
             register: _.noop,
             unregister: _.noop,
@@ -132,13 +144,13 @@ describe('root', function () {
     });
 
     it('should be able to unmount a plane component', function() {
-        let value = null;
+        let value = '';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
         ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(root).parentNode);
     });
 
     it('should call set class to touched a form as been submitted by the shForm', function() {
-        let value = null;
+        let value = '';
         let validator = {
             register: _.noop,
             unregister: _.noop,
@@ -150,13 +162,22 @@ describe('root', function () {
     });
 
     it('changing props should update state', function() {
-        let value = '1';
+        let value = '<div>1</div>';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
         var props = {
-            value: '0'
+            value: '<div>0</div>'
         };
         root.componentWillReceiveProps(props);
-        expect(root.state.value).toBe('0')
+        expect(root.state.value).toBe('<div>0</div>');
+    });
+
+    it('changing props without value should not update state', function() {
+        let value = '<div>1</div>';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        expect(root.state.value).toBe('<div><br></div>');
+        var props = {};
+        root.componentWillReceiveProps(props);
+        expect(root.state.value).toBe('<div><br></div>');
     });
 
     it('calling clearText() should clear out the text area', function() {
