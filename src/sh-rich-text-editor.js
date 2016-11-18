@@ -183,7 +183,7 @@ class ShRichTextEditor extends React.Component {
                     />
                     <div className="quill-contents-label">
                         <span className="label">{label}</span>
-                        <span className={"required-label " + ShCore.getClassNames(this.state.requiredField)}>required</span>
+                        <span className={this.state.requiredField.showRequired ? "required-label show-required" : "required-label"}>required</span>
                     </div>
                     <div
                         key="editor"

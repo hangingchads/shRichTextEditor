@@ -4,11 +4,31 @@
     display: block;
     float: left;
     width: 100%;
+    color: $color-font;
+    border-radius: $size-border-radius-small;
+    background: transparent;
+    transition: background $transition-hover, box-shadow $transition-fast, border $transition-fast;
+    border: 1px solid $color-transparent;
+
+    @include focus;
+
+    &:hover {
+        background: $color-box-background5;
+    }
+
+    &.empty {
+        background: $color-box-background5;
+    }
+
+    &.sh-invalid {
+        &.sh-touched {
+            border: 1px solid $color-error;
+        }
+    }
 
     .quill-toolbar.ql-toolbar {
         background: $color-box-background;
-        margin-bottom: 10px;
-        border-radius: $size-border-radius-small;
+        border: none;
     }
 
     .ql-snow.ql-toolbar .ql-picker.ql-font {
@@ -20,29 +40,41 @@
     }
 
     .quill-contents-label {
-        background: $color-box-background;
-        color: $color-thirdary;
-        text-transform: uppercase;
-        border-radius: $size-border-radius-small $size-border-radius-small 0 0;
-        font-family: $font-family;
-        padding: 8px 8px 0;
-        font-size: $size-font-small;
-        font-weight: $font-weight-light;
-    }
+        padding: 8px;
 
-    .required-label {
-        padding-left: 5px;
-        color: $color-error;
+        .label {
+            font-size: $size-font-small;
+            color: $color-font-label;
+            text-transform: uppercase;
+            @include ellipsis;
+        }
+
+        .required-label {
+            float: right;
+            font-size: $size-font-small;
+            text-transform: uppercase;
+            opacity: 0;
+            color: $color-line4;
+            transition: opacity $transition;
+
+            &.show-required {
+                opacity: 1;
+                transition: opacity $transition;
+            }
+        }
     }
 
     .quill-contents {
-        box-sizing: border-box;
-        background: $color-box-background;
-        color: $color-dark-line;
+        border: none;
         height: 200px;
+        width: 100%;
         overflow-y: scroll;
-        padding: 8px;
-        border-radius: 0 0 $size-border-radius-small $size-border-radius-small;
+        padding: 0px;
+
+        .ql-editor {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
     }
 
     $fonts-list: sans-serif, serif, monospace, Arial, Calibri, "Comic Sans MS", Georgia, Impact, Tahoma, "Times New Roman", Verdana;
