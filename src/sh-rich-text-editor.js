@@ -2,7 +2,6 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import ShCore from 'sh-core';
 import * as _ from 'lodash';
-import './quill.snow.scss';
 import './sh-rich-text-editor.scss';
 
 
