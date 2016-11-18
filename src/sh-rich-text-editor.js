@@ -34,7 +34,7 @@ class ShRichTextEditor extends React.Component {
 
         this.state.classList.shInvalid = false;
 
-        if (this.props.required && (this.state.value == null || this.state.value.trim() === '')) {
+        if (this.props.required && this.isEmpty()) {
             this.state.classList.shInvalid = true;
 
             rtn.isValid = false;
@@ -60,7 +60,7 @@ class ShRichTextEditor extends React.Component {
     componentWillReceiveProps(props) {
         if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.state.value)) {
             var newState = _.clone(this.state);
-            newState.classList.empty = !props.value;
+            newState.classList.empty = this.isEmpty();
             newState.value = props.value;
             this.setState(newState, this.validate);
         }
@@ -109,14 +109,14 @@ class ShRichTextEditor extends React.Component {
         this.props.onBlur(event);
         this.refs.quill.blur();
         var newState = _.clone(this.state);
-        newState.classList.empty = !this.state.value;
-        newState.requiredField.showRequired = (this.state.value.length < 1 && this.props.required);
+        newState.classList.empty = this.isEmpty();
+        newState.requiredField.showRequired = (this.isEmpty() && this.props.required);
         this.setState(newState);
     };
 
     getEditor() {
         return this.refs.quill.getEditor();
-    }
+    };
 
     clearText() {
         let defaultText = this.setDefaultStyle('', this.props.toolbarItems);
@@ -125,12 +125,16 @@ class ShRichTextEditor extends React.Component {
 
     getText() {
         return this.getEditor().getHTML();
-    }
+    };
+
+    isEmpty() {
+        return ((this.state.value === '') || (this.state.value === '<div></div>') || (this.state.value === '<div><br></div>'));
+    };
 
     setDefaultStyle(value, toolbarItems) {
         let { defaultFont, defaultFontSize } = this.props;
 
-        if ((value === '') || (value === '<div><br></div>') || (value === '<div></div>')) {
+        if (this.isEmpty()) {
             let defaultText = '<div style="';
             if (defaultFont !== '') {
                 defaultText += 'font-family: ' + defaultFont + ';';
