@@ -14,10 +14,10 @@ class ShRichTextEditor extends React.Component {
             classList: {
                 shRichTextEditor: true,
                 empty: true,
-                focused: false
+                focused: false,
+                showRequired: false
             },
-            validStatus: 'unknown',
-            requiredField: {showRequired: false}
+            validStatus: 'unknown'
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeSelection = this.handleChangeSelection.bind(this);
@@ -77,7 +77,7 @@ class ShRichTextEditor extends React.Component {
         }
 
         if (this.props.required) {
-            this.setState({requiredField: {showRequired: true}});
+            this.setState({classList: {showRequired: true}});
         }
     };
 
@@ -112,7 +112,7 @@ class ShRichTextEditor extends React.Component {
         var newState = _.clone(this.state);
         newState.classList.empty = this.isEmpty();
         newState.classList.focused = false;
-        newState.requiredField.showRequired = (this.isEmpty() && this.props.required);
+        newState.classList.showRequired = (this.isEmpty() && this.props.required);
         this.setState(newState);
     };
 
@@ -185,7 +185,7 @@ class ShRichTextEditor extends React.Component {
                     />
                     <div className="quill-contents-label">
                         <span className="label">{label}</span>
-                        <span className={this.state.requiredField.showRequired ? "required-label show-required" : "required-label"}>required</span>
+                        <span className="required-label">required</span>
                     </div>
                     <div
                         key="editor"
