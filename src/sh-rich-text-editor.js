@@ -13,7 +13,8 @@ class ShRichTextEditor extends React.Component {
             value: '',
             classList: {
                 shRichTextEditor: true,
-                empty: true
+                empty: true,
+                focused: false
             },
             validStatus: 'unknown',
             requiredField: {showRequired: false}
@@ -99,6 +100,7 @@ class ShRichTextEditor extends React.Component {
         this.props.onFocus(event);
         this.refs.quill.focus();
         this.state.classList.shTouched = true;
+        this.state.classList.focused = true;
         var newState = _.clone(this.state);
         this.setState(newState);
     };
@@ -109,6 +111,7 @@ class ShRichTextEditor extends React.Component {
         this.refs.quill.blur();
         var newState = _.clone(this.state);
         newState.classList.empty = this.isEmpty();
+        newState.classList.focused = false;
         newState.requiredField.showRequired = (this.isEmpty() && this.props.required);
         this.setState(newState);
     };
@@ -191,6 +194,7 @@ class ShRichTextEditor extends React.Component {
                         dangerouslySetInnerHTML={{ __html: value }}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
+                        tabIndex="0"
                     />
                 </ReactQuill>
             </div>
