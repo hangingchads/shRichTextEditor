@@ -39,6 +39,15 @@
         .quill-contents {
             background: $color-box-background5;
         }
+        .quill-contents:before {
+            position: absolute;
+            top: 15px;
+            left: 5px;
+            color: $color-primary;
+            font-weight: $font-weight-bold;
+            opacity: 1;
+            content: '+';
+        }
     }
 
     &.sh-invalid  {

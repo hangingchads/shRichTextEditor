@@ -23,6 +23,7 @@ class ShRichTextEditor extends React.Component {
         this.handleChangeSelection = this.handleChangeSelection.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
         this.validate = this.validate.bind(this);
     }
 
@@ -126,6 +127,13 @@ class ShRichTextEditor extends React.Component {
         this.setState(newState);
     };
 
+    handleKeyUp(event) {
+        var newState = _.clone(this.state);
+        newState.classList.empty = this.isEmpty();
+        newState.classList.showRequired = (this.isEmpty() && this.props.required);
+        this.setState(newState);
+    };
+
     getEditor() {
         return this.refs.quill.getEditor();
     };
@@ -204,6 +212,7 @@ class ShRichTextEditor extends React.Component {
                         dangerouslySetInnerHTML={{ __html: value }}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
+                        onKeyUp={this.handleKeyUp}
                         tabIndex="0"
                     />
                 </ReactQuill>
