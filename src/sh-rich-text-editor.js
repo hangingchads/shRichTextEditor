@@ -67,17 +67,27 @@ class ShRichTextEditor extends React.Component {
     };
 
     componentDidMount() {
-        if (this.props.value) {
+        if ((this.props.value) && (this.props.value !== '')) {
             this.setState(
                 {
                     value: this.props.value,
-                    classList: {shInputText: true}
+                    classList: {
+                        shInputText: true,
+                        showRequired: this.props.required
+                    }
                 }
-            )
-        }
-
-        if (this.props.required) {
-            this.setState({classList: {showRequired: true}});
+            );
+        } else {
+            this.setState(
+                {
+                    value: this.props.value,
+                    classList: {
+                        shInputText: true,
+                        empty: true,
+                        showRequired: this.props.required
+                    }
+                }
+            );
         }
     };
 
