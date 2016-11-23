@@ -73,7 +73,7 @@ class ShRichTextEditor extends React.Component {
                 {
                     value: this.props.value,
                     classList: {
-                        shInputText: true,
+                        shRichTextEditor: true,
                         showRequired: this.props.required
                     }
                 }
@@ -83,7 +83,7 @@ class ShRichTextEditor extends React.Component {
                 {
                     value: this.props.value,
                     classList: {
-                        shInputText: true,
+                        shRichTextEditor: true,
                         empty: true,
                         showRequired: this.props.required
                     }
@@ -109,22 +109,26 @@ class ShRichTextEditor extends React.Component {
 
     handleFocus(event) {
         this.props.onFocus(event);
-        this.refs.quill.focus();
         this.state.classList.shTouched = true;
         this.state.classList.focused = true;
         var newState = _.clone(this.state);
         this.setState(newState);
+        if(!_.isUndefined(this.refs.quill)) {
+            this.refs.quill.focus();
+        }
     };
 
     handleBlur(event) {
         this.validate();
         this.props.onBlur(event);
-        this.refs.quill.blur();
         var newState = _.clone(this.state);
         newState.classList.empty = this.isEmpty();
         newState.classList.focused = false;
         newState.classList.showRequired = (this.isEmpty() && this.props.required);
         this.setState(newState);
+        if(!_.isUndefined(this.refs.quill)) {
+            this.refs.quill.blur();
+        }
     };
 
     handleKeyUp(event) {

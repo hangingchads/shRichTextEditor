@@ -2,6 +2,7 @@
 @import '../node_modules/quill/dist/quill.snow.css';
 
 #react-quill-editor {
+    position: relative;
     border: none;
     display: block;
     float: left;
@@ -12,10 +13,10 @@
     .quill-contents-label {
         position: absolute;
         left: 0;
-        top: 95px;
+        top: 55px;
         width: 100%;
-        padding-left: 45px;
-        padding-right: 45px;
+        padding-left: 10px;
+        padding-right: 10px;
 
         .label {
             float: left;
