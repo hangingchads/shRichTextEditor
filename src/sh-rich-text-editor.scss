@@ -1,0 +1,137 @@
+@import '../node_modules/sh-core/src/base';
+@import '../node_modules/quill/dist/quill.snow.css';
+
+#react-quill-editor {
+    position: relative;
+    border: none;
+    display: block;
+    float: left;
+    width: 100%;
+    color: $color-font;
+    background: transparent;
+
+    .quill-contents-label {
+        position: absolute;
+        left: 0;
+        top: 55px;
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+
+        .label {
+            float: left;
+            font-size: $size-font-small;
+            color: $color-font-label;
+            text-transform: uppercase;
+            @include ellipsis;
+        }
+
+        .required-label {
+            float: right;
+            font-size: $size-font-small;
+            text-transform: uppercase;
+            opacity: 0;
+            color: $color-line4;
+            transition: opacity $transition;
+        }
+    }
+
+    &.empty {
+        .quill-contents {
+            background: $color-box-background5;
+        }
+    }
+
+    &.prompt {
+        .quill-contents:before {
+            position: absolute;
+            top: 25px;
+            left: 5px;
+            color: $color-primary;
+            font-weight: $font-weight-bold;
+            opacity: 1;
+            content: '+';
+        }
+    }
+
+    &.sh-invalid  {
+        &.sh-touched {
+            .quill-contents {
+                border: 1px solid $color-error;
+            }
+        }
+    }
+
+    &:hover {
+        .quill-contents {
+            background: $color-box-background5;
+        }
+    }
+
+    &.focused {
+        .quill-contents {
+            @include boxShadow(inset 0 1px 1px $color-transparent, 0 0 5px $color-box-background2);
+        }
+    }
+
+    &.show-required {
+        .quill-contents-label {
+            .required-label {
+                opacity: 1;
+                transition: opacity $transition;
+            }
+        }
+    }
+
+    .quill-toolbar.ql-toolbar {
+        background: $color-box-background;
+        margin-bottom: 10px;
+        border-radius: $size-border-radius-small;
+    }
+
+    .ql-snow.ql-toolbar .ql-picker-label {
+        &:hover {
+            color: $color-neural;
+        }
+    }
+
+    .ql-snow.ql-toolbar .ql-picker.ql-font {
+        width: 160px;
+    }
+
+    .ql-snow.ql-toolbar .ql-picker.ql-size {
+        width: 90px;
+    }
+
+    .quill-contents {
+        position: relative;
+        border: 1px solid $color-transparent;
+        border-radius: $size-border-radius-small;
+        transition: background $transition-hover, box-shadow $transition-fast, border $transition-fast;
+        height: 200px;
+        width: 100%;
+        overflow-y: scroll;
+        padding: 0px;
+        outline: 0;
+
+        .ql-editor {
+            padding: 18px 12px 0 6px;
+        }
+    }
+
+    $fonts-list: sans-serif, serif, monospace, Arial, Calibri, "Comic Sans MS", Georgia, Impact, Tahoma, "Times New Roman", Verdana;
+    @each $font in $fonts-list {
+    $i: index($fonts-list, $font);
+    span[title="Font"] .ql-picker-item:nth-child(#{$i}) {
+      font-family: $font
+    }
+  }
+
+  $size-list: 10px, 13px, 18px, 32px;
+  @each $size in $size-list {
+    $i: index($size-list, $size); 
+    span[title="Size"] .ql-picker-item:nth-child(#{$i}) {
+      font-size: $size
+    }
+  }
+}
