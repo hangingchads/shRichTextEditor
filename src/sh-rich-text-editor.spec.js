@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react/lib/ReactTestUtils');
+var TestUtils = require('react-addons-test-utils');
 import * as _ from 'lodash';
 
 var ShRichTextEditor = require('./sh-rich-text-editor').default;
@@ -21,7 +21,7 @@ describe('root', function () {
         root.handleChange({target:{value:2}});
 
         TestUtils.Simulate.blur(input);
-        expect(rootNode.classList.length).toBe(2);
+        expect(rootNode.classList.length).toBe(3);
     });
 
     it('set classes from parent', function () {
@@ -89,7 +89,7 @@ describe('root', function () {
         let rootNode = ReactDOM.findDOMNode(root);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        expect(root.state.requiredField.showRequired).toBe(true);
+        expect(root.state.classList.showRequired).toBe(true);
     });
 
     it('the required label should not show up if the field is not required', function () {
@@ -103,7 +103,7 @@ describe('root', function () {
         TestUtils.Simulate.focus(input);
         TestUtils.Simulate.blur(input);
         input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        expect(root.state.requiredField.showRequired).toBe(false);
+        expect(root.state.classList.showRequired).toBe(false);
     });
 
     it('should have a validator function', function() {
@@ -174,15 +174,17 @@ describe('root', function () {
     it('changing props without value should not update state', function() {
         let value = '<div>1</div>';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
-        expect(root.state.value).toBe('<div><br></div>');
+        expect(root.state.value).toBe(value);
         var props = {};
         root.componentWillReceiveProps(props);
-        expect(root.state.value).toBe('<div><br></div>');
+        expect(root.state.value).toBe(value);
     });
 
     it('calling clearText() should clear out the text area', function() {
         let value = 'test';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
+        TestUtils.Simulate.blur(input);
         root.clearText();
         expect(root.getText()).toBe('<div style=""><br></div>');
     });
@@ -192,6 +194,8 @@ describe('root', function () {
         let defaultFont = 'Verdana';
         let defaultFontSize = 'Large';
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} defaultFont={defaultFont} defaultFontSize={defaultFontSize} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
+        TestUtils.Simulate.blur(input);
         root.clearText();
         expect(root.getText()).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
     });

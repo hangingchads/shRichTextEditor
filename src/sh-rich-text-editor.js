@@ -148,6 +148,9 @@ class ShRichTextEditor extends React.Component {
     };
 
     clearText() {
+        var newState = _.clone(this.state);
+        newState.value = '';
+        this.setState(newState);
         let defaultText = this.setDefaultStyle('', this.props.toolbarItems);
         this.getEditor().setHTML(defaultText);
     };

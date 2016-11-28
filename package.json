@@ -49,6 +49,7 @@
     "karma-webpack": "^1.8.0",
     "node-sass": "^3.8.0",
     "phantomjs": "^2.1.7",
+    "react-addons-test-utils": "^15.4.0",
     "sass-loader": "^4.0.0",
     "sh-form": "^0.1.4",
     "style-loader": "^0.13.1",
