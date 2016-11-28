@@ -15,7 +15,8 @@ class ShRichTextEditor extends React.Component {
                 shRichTextEditor: true,
                 empty: true,
                 focused: false,
-                showRequired: false
+                showRequired: false,
+                prompt: true
             },
             validStatus: 'unknown'
         };
@@ -62,6 +63,7 @@ class ShRichTextEditor extends React.Component {
         if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.state.value)) {
             var newState = _.clone(this.state);
             newState.classList.empty = this.isEmpty();
+            newState.classList.prompt = this.isEmpty();
             newState.value = props.value;
             this.setState(newState, this.validate);
         }
@@ -85,6 +87,7 @@ class ShRichTextEditor extends React.Component {
                     classList: {
                         shRichTextEditor: true,
                         empty: true,
+                        prompt: true,
                         showRequired: this.props.required
                     }
                 }
@@ -109,9 +112,10 @@ class ShRichTextEditor extends React.Component {
 
     handleFocus(event) {
         this.props.onFocus(event);
-        this.state.classList.shTouched = true;
-        this.state.classList.focused = true;
         var newState = _.clone(this.state);
+        newState.classList.shTouched = true;
+        newState.classList.focused = true;
+        newState.classList.prompt = false;
         this.setState(newState);
         if(!_.isUndefined(this.refs.quill)) {
             this.refs.quill.focus();
@@ -125,6 +129,7 @@ class ShRichTextEditor extends React.Component {
         newState.classList.empty = this.isEmpty();
         newState.classList.focused = false;
         newState.classList.showRequired = (this.isEmpty() && this.props.required);
+        newState.classList.prompt = this.isEmpty();
         this.setState(newState);
         if(!_.isUndefined(this.refs.quill)) {
             this.refs.quill.blur();

@@ -40,9 +40,12 @@
         .quill-contents {
             background: $color-box-background5;
         }
+    }
+
+    &.prompt {
         .quill-contents:before {
             position: absolute;
-            top: 30px;
+            top: 25px;
             left: 5px;
             color: $color-primary;
             font-weight: $font-weight-bold;
