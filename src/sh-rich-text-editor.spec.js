@@ -80,6 +80,30 @@ describe('root', function () {
         TestUtils.Simulate.focus(input);
     });
 
+    it('should handle keyUp events (field is not required)', function() {
+        let value = '';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.state.value).toBe(value);
+        root.handleChange({
+            target: {
+                value: 'test'
+            }
+        });
+        root.handleKeyUp({key: '1'});
+        expect(root.state.classList.empty).toBe(false);
+    });
+
+    it('should handle keyUp events (field is required)', function() {
+        let value = '';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.state.value).toBe(value);
+        root.handleKeyUp({key: '1'});
+        expect(root.state.classList.empty).toBe(true);
+        expect(root.state.classList.showRequired).toBe(true);
+    });
+
     it('works a field is required', function () {
         let value = '0';
         let changeMe = () => {

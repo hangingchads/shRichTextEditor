@@ -76,7 +76,9 @@ class ShRichTextEditor extends React.Component {
                     value: this.props.value,
                     classList: {
                         shRichTextEditor: true,
-                        showRequired: this.props.required
+                        showRequired: this.props.required,
+                        empty: false,
+                        prompt: false
                     }
                 }
             );
@@ -117,9 +119,7 @@ class ShRichTextEditor extends React.Component {
         newState.classList.focused = true;
         newState.classList.prompt = false;
         this.setState(newState);
-        if(!_.isUndefined(this.refs.quill)) {
-            this.refs.quill.focus();
-        }
+        this.refs.quill.focus();
     };
 
     handleBlur(event) {
@@ -131,15 +131,13 @@ class ShRichTextEditor extends React.Component {
         newState.classList.showRequired = (this.isEmpty() && this.props.required);
         newState.classList.prompt = this.isEmpty();
         this.setState(newState);
-        if(!_.isUndefined(this.refs.quill)) {
-            this.refs.quill.blur();
-        }
+        this.refs.quill.blur();
     };
 
     handleKeyUp(event) {
         var newState = _.clone(this.state);
         newState.classList.empty = this.isEmpty();
-        newState.classList.showRequired = (this.isEmpty() && this.props.required);
+        newState.classList.showRequired = ((this.isEmpty()) && (this.props.required));
         this.setState(newState);
     };
 
@@ -254,7 +252,7 @@ function getToolbarConfig() {
     ...toolbar[0].items[0].items,
     ...fontsToAdd
   ];
-
+  
   //remove link option
   toolbar[1].items.pop();
 
