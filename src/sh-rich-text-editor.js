@@ -253,6 +253,9 @@ function getToolbarConfig() {
     ...fontsToAdd
   ];
   
+  // Remove strikethrough option
+  toolbar[1].items.splice(2, 1);
+  
   //remove link option
   toolbar[1].items.pop();
 
