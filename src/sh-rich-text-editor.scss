@@ -1,7 +1,7 @@
 @import '../node_modules/sh-core/src/base';
 @import '../node_modules/quill/dist/quill.snow.css';
 
-#react-quill-editor {
+.sh-rich-text-editor {
     position: relative;
     border: none;
     display: block;
