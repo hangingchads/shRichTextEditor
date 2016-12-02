@@ -210,7 +210,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.getText()).toBe('<div style=""><br></div>');
+        expect(root.state.value).toBe('<div style=""><br></div>');
     });
 
     it('should set the default font and size', function() {
@@ -221,7 +221,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.getText()).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
+        expect(root.state.value).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
     });
 
     it('should validate when updating the text', function () {

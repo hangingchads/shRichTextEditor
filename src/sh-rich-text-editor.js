@@ -138,16 +138,12 @@ class ShRichTextEditor extends React.Component {
 
     clearText() {
         var newState = _.clone(this.state);
-        newState.value = '';
-        this.setState(newState);
         let defaultText = this.setDefaultStyle('', this.props.toolbarItems);
         this.getEditor().setHTML(defaultText);
+        newState.value = defaultText;
+        this.setState(newState);
     };
-
-    getText() {
-        return this.getEditor().getHTML();
-    };
-
+    
     isEmpty() {
         return ((this.state.value === '') || (this.state.value === '<div></div>') || (this.state.value === '<div><br></div>'));
     };
@@ -177,25 +173,26 @@ class ShRichTextEditor extends React.Component {
 
     render() {
         var {
-            value,
             label,
             onFocus,
             onBlur,
             required,
             toolbarItems,
+            defaultFont,
+            defaultFontSize,
             ...other
         } = this.props;
 
-        value = this.setDefaultStyle(value, toolbarItems);
+        let value = this.setDefaultStyle(this.state.value, toolbarItems);
 
         return (
             <div id="react-quill-editor" className={this.props.className ? ShCore.getClassNames(this.state.classList) + ' ' + this.props.className : ShCore.getClassNames(this.state.classList)}>
                 <ReactQuill ref="quill"
                     className="sh-rich-text-editor-quill"
-                    {...other}
                     theme="snow"
                     onChange={this.handleChange}
                     onChangeSelection={this.handleChangeSelection}
+                    {...other}
                 >
                     <ReactQuill.Toolbar
                         key="toolbar"
