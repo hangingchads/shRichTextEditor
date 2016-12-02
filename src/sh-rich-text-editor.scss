@@ -13,7 +13,7 @@
     .quill-contents-label {
         position: absolute;
         left: 0;
-        top: 55px;
+        top: 45px;
         width: 100%;
         padding-left: 5px;
         padding-right: 5px;
@@ -85,6 +85,7 @@
 
     .quill-toolbar.ql-toolbar {
         background: $color-box-background;
+        padding: 4px;
         margin-bottom: 10px;
         border-radius: $size-border-radius-small;
     }
