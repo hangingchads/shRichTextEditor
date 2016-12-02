@@ -29,20 +29,21 @@ class ShRichTextEditor extends React.Component {
     }
 
     validate(onSubmit) {
+        var newState = _.clone(this.state);
         if (onSubmit) {
-            this.state.classList.shTouched = true;
+            newState.classList.shTouched = true;
         }
         let rtn = {isValid: true};
 
-        this.state.classList.shInvalid = false;
+        newState.classList.shInvalid = false;
 
         if (this.props.required && this.isEmpty()) {
-            this.state.classList.shInvalid = true;
+            newState.classList.shInvalid = true;
 
             rtn.isValid = false;
             rtn.msg = 'Required';
         }
-        var newState = _.clone(this.state);
+
         this.setState(newState);
         return rtn;
     };
@@ -70,27 +71,17 @@ class ShRichTextEditor extends React.Component {
     };
 
     componentDidMount() {
-        if ((this.props.value) && (this.props.value !== '')) {
+        if (this.props.value) {
+            let value = this.props.value;
+            let isEmpty = ((value === '') || (value === '<div></div>') || (value === '<div><br></div>'));
             this.setState(
                 {
-                    value: this.props.value,
+                    value: value,
                     classList: {
                         shRichTextEditor: true,
                         showRequired: this.props.required,
-                        empty: false,
-                        prompt: false
-                    }
-                }
-            );
-        } else {
-            this.setState(
-                {
-                    value: this.props.value,
-                    classList: {
-                        shRichTextEditor: true,
-                        empty: true,
-                        prompt: true,
-                        showRequired: this.props.required
+                        empty: isEmpty,
+                        prompt: isEmpty
                     }
                 }
             );
@@ -164,7 +155,7 @@ class ShRichTextEditor extends React.Component {
     setDefaultStyle(value, toolbarItems) {
         let { defaultFont, defaultFontSize } = this.props;
 
-        if (this.isEmpty()) {
+        if ((value === '') || (value === '<div></div>') || (value === '<div><br></div>')) {
             let defaultText = '<div style="';
             if (defaultFont !== '') {
                 defaultText += 'font-family: ' + defaultFont + ';';
