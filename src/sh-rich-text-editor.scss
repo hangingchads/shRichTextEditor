@@ -88,6 +88,16 @@
         padding: 4px;
         margin-bottom: 10px;
         border-radius: $size-border-radius-small;
+
+        @media only screen and (max-width: 1200px) {
+            .ql-background + .ql-format-separator {
+                display: none;
+            }
+
+            .ql-format-group:nth-of-type(3) {
+                display: none;
+            }
+        }
     }
 
     .ql-snow.ql-toolbar .ql-picker-label {
