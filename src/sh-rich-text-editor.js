@@ -37,7 +37,7 @@ class ShRichTextEditor extends React.Component {
 
         newState.classList.shInvalid = false;
 
-        if (this.props.required && this.isEmpty()) {
+        if (this.props.required && this.isEmpty(this.state.value)) {
             newState.classList.shInvalid = true;
 
             rtn.isValid = false;
@@ -63,8 +63,8 @@ class ShRichTextEditor extends React.Component {
     componentWillReceiveProps(props) {
         if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.state.value)) {
             var newState = _.clone(this.state);
-            newState.classList.empty = this.isEmpty();
-            newState.classList.prompt = this.isEmpty();
+            newState.classList.empty = this.isEmpty(props.value);
+            newState.classList.prompt = this.isEmpty(props.value);
             newState.value = props.value;
             this.setState(newState, this.validate);
         }
@@ -73,7 +73,7 @@ class ShRichTextEditor extends React.Component {
     componentDidMount() {
         if (this.props.value) {
             let value = this.props.value;
-            let isEmpty = ((value === '') || (value === '<div></div>') || (value === '<div><br></div>'));
+            let isEmpty = this.isEmpty(value);
             this.setState(
                 {
                     value: value,
@@ -116,19 +116,21 @@ class ShRichTextEditor extends React.Component {
     handleBlur(event) {
         this.validate();
         this.props.onBlur(event);
+        let isEmpty = this.isEmpty(this.state.value);
         var newState = _.clone(this.state);
-        newState.classList.empty = this.isEmpty();
+        newState.classList.empty = isEmpty;
         newState.classList.focused = false;
-        newState.classList.showRequired = (this.isEmpty() && this.props.required);
-        newState.classList.prompt = this.isEmpty();
+        newState.classList.showRequired = (isEmpty && this.props.required);
+        newState.classList.prompt = isEmpty;
         this.setState(newState);
         this.refs.quill.blur();
     };
 
     handleKeyUp(event) {
+        let isEmpty = this.isEmpty(this.state.value);
         var newState = _.clone(this.state);
-        newState.classList.empty = this.isEmpty();
-        newState.classList.showRequired = ((this.isEmpty()) && (this.props.required));
+        newState.classList.empty = isEmpty;
+        newState.classList.showRequired = ((isEmpty) && (this.props.required));
         this.setState(newState);
     };
 
@@ -144,14 +146,14 @@ class ShRichTextEditor extends React.Component {
         this.setState(newState);
     };
     
-    isEmpty() {
-        return ((this.state.value === '') || (this.state.value === '<div></div>') || (this.state.value === '<div><br></div>'));
+    isEmpty(value) {
+        return ((value === '') || (value === '<div></div>') || (value === '<div><br></div>') || (value === '<div><br> </div>'));
     };
 
     setDefaultStyle(value, toolbarItems) {
         let { defaultFont, defaultFontSize } = this.props;
 
-        if ((value === '') || (value === '<div></div>') || (value === '<div><br></div>')) {
+        if (this.isEmpty(value)) {
             let defaultText = '<div style="';
             if (defaultFont !== '') {
                 defaultText += 'font-family: ' + defaultFont + ';';
