@@ -14,8 +14,10 @@ describe('root', function () {
 
     it('input styles not be set to empty if there is a value', function () {
         let value = '';
-
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         let rootNode = ReactDOM.findDOMNode(root);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
         root.handleChange({target:{value:2}});
@@ -37,8 +39,10 @@ describe('root', function () {
         let onBlur = () => {
             blurTest = 1;
         };
-
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onBlur={onBlur}/>);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onBlur={onBlur}  onChange={changeMe} />);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
@@ -51,8 +55,10 @@ describe('root', function () {
         let onFocus = () => {
             focusTest = 1;
         };
-
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onFocus={onFocus} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onFocus={onFocus} onChange={changeMe} />);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.focus(input);
@@ -65,46 +71,49 @@ describe('root', function () {
         let selectMe = () => {
             selectionTest = 1;
         };
-
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChangeSelection={selectMe} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChangeSelection={selectMe} onChange={changeMe} />);
         root.handleChangeSelection(0, 0, root);
         expect(selectionTest).toBe(1);
     });
 
     it('handle focus', function () {
         let value = '0';
-
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value}/>);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
 
         TestUtils.Simulate.focus(input);
     });
 
     it('should handle keyUp events (field is not required)', function() {
-        let value = '';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let value = '1';
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        expect(root.state.value).toBe(value);
-        root.handleChange({
-            target: {
-                value: 'test'
-            }
-        });
-        root.handleKeyUp({key: '1'});
-        expect(root.state.classList.empty).toBe(false);
+        expect(value).toBe('1');
+        root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
+        root.handleKeyUp({key: 'Backspace'});
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('should handle keyUp events (field is required)', function() {
-        let value = '';
+        let value = '1';
         let changeMe = (newVal) => {
             value = newVal;
         };
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        expect(value).toBe('');
-        root.handleKeyUp({key: '1'});
-        expect(root.state.classList.empty).toBe(true);
-        expect(root.state.classList.showRequired).toBe(true);
+        expect(value).toBe('1');
+        root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
+        root.handleKeyUp({key: 'Backspace'});
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('works a field is required', function () {
