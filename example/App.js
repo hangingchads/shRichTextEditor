@@ -44,7 +44,7 @@ class App extends React.Component {
             <div>
                 <ShForm onSubmit={this.handleSubmit}>
                     <ShRichTextEditor value={this.state.text} required={true} onChange={this.handleChange} onBlur={this.handleBlur}
-                        onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" />
+                        onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" defaultFont="Serif" defaultFontSize="Large" />
                     <button type="submit">Done</button>
                 </ShForm>
             </div>
