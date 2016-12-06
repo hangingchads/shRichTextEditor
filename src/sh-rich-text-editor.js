@@ -10,7 +10,6 @@ class ShRichTextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
             classList: {
                 shRichTextEditor: true,
                 empty: true,
@@ -36,8 +35,7 @@ class ShRichTextEditor extends React.Component {
         let rtn = {isValid: true};
 
         newState.classList.shInvalid = false;
-
-        if (this.props.required && this.isEmpty(this.state.value)) {
+        if (this.props.required && this.isEmpty(this.getEditor().getText().trim())) {
             newState.classList.shInvalid = true;
 
             rtn.isValid = false;
@@ -61,11 +59,10 @@ class ShRichTextEditor extends React.Component {
     };
 
     componentWillReceiveProps(props) {
-        if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.state.value)) {
+        if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.getEditor().getHTML())) {
             var newState = _.clone(this.state);
             newState.classList.empty = this.isEmpty(props.value);
             newState.classList.prompt = this.isEmpty(props.value);
-            newState.value = props.value;
             this.setState(newState, this.validate);
         }
     };
@@ -76,7 +73,6 @@ class ShRichTextEditor extends React.Component {
             let isEmpty = this.isEmpty(value);
             this.setState(
                 {
-                    value: value,
                     classList: {
                         shRichTextEditor: true,
                         showRequired: this.props.required,
@@ -89,13 +85,11 @@ class ShRichTextEditor extends React.Component {
     };
 
     handleChange(value) {
-        this.setState({value: value}, ()=> {
-            if (this.props.validator) {
-                this.props.validator.validate();
-            } else {
-                this.validate();
-            }
-        });
+        if (this.props.validator) {
+            this.props.validator.validate();
+        } else {
+            this.validate();
+        }
         this.props.onChange(value);
     };
 
@@ -116,7 +110,7 @@ class ShRichTextEditor extends React.Component {
     handleBlur(event) {
         this.validate();
         this.props.onBlur(event);
-        let isEmpty = this.isEmpty(this.state.value);
+        let isEmpty = this.isEmpty(this.getEditor().getText().trim());
         var newState = _.clone(this.state);
         newState.classList.empty = isEmpty;
         newState.classList.focused = false;
@@ -127,7 +121,7 @@ class ShRichTextEditor extends React.Component {
     };
 
     handleKeyUp(event) {
-        let isEmpty = this.isEmpty(this.state.value);
+        let isEmpty = this.isEmpty(this.getEditor().getText().trim());
         var newState = _.clone(this.state);
         newState.classList.empty = isEmpty;
         newState.classList.showRequired = ((isEmpty) && (this.props.required));
@@ -139,12 +133,9 @@ class ShRichTextEditor extends React.Component {
     };
 
     clearText() {
-        var newState = _.clone(this.state);
         let defaultText = this.setDefaultStyle('', this.props.toolbarItems);
         this.getEditor().setHTML(defaultText);
         this.handleChange(defaultText);
-        newState.value = defaultText;
-        this.setState(newState);
     };
     
     isEmpty(value) {
@@ -176,6 +167,7 @@ class ShRichTextEditor extends React.Component {
 
     render() {
         var {
+            value,
             label,
             onFocus,
             onBlur,
@@ -186,13 +178,14 @@ class ShRichTextEditor extends React.Component {
             ...other
         } = this.props;
 
-        let value = this.setDefaultStyle(this.state.value, toolbarItems);
+        value = this.setDefaultStyle(value, toolbarItems);
 
         return (
             <div id="react-quill-editor" className={this.props.className ? ShCore.getClassNames(this.state.classList) + ' ' + this.props.className : ShCore.getClassNames(this.state.classList)}>
                 <ReactQuill ref="quill"
                     className="sh-rich-text-editor-quill"
                     theme="snow"
+                    value={value}
                     onChange={this.handleChange}
                     onChangeSelection={this.handleChangeSelection}
                     {...other}
