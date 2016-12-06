@@ -1,10 +1,11 @@
 module.exports = {
-    entry: './example/app.js',
+    entry: './example/App.js',
     output: {
         path: './bin',
         filename: 'example.js',
     },
     module: {
+        noParse: /node_modules\/quill\/dist/,
         loaders: [
             {
                 test: /\.jsx?$/,

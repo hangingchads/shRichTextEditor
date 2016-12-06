@@ -80,6 +80,30 @@ describe('root', function () {
         TestUtils.Simulate.focus(input);
     });
 
+    it('should handle keyUp events (field is not required)', function() {
+        let value = '';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.state.value).toBe(value);
+        root.handleChange({
+            target: {
+                value: 'test'
+            }
+        });
+        root.handleKeyUp({key: '1'});
+        expect(root.state.classList.empty).toBe(false);
+    });
+
+    it('should handle keyUp events (field is required)', function() {
+        let value = '';
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
+        expect(root.state.value).toBe(value);
+        root.handleKeyUp({key: '1'});
+        expect(root.state.classList.empty).toBe(true);
+        expect(root.state.classList.showRequired).toBe(true);
+    });
+
     it('works a field is required', function () {
         let value = '0';
         let changeMe = () => {
@@ -186,7 +210,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.getText()).toBe('<div style=""><br></div>');
+        expect(root.state.value).toBe('<div style=""><br></div>');
     });
 
     it('should set the default font and size', function() {
@@ -197,7 +221,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.getText()).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
+        expect(root.state.value).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
     });
 
     it('should validate when updating the text', function () {

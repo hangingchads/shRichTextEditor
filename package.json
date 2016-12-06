@@ -1,6 +1,6 @@
 {
   "name": "sh-rich-text-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Rich text editor (uses Quill JS)",
   "main": "./bin/sh-rich-text-editor.js",
   "scripts": {
@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "lodash": "^4.14.1",
+    "quill": "^0.20.1",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "sh-core": "^0.3.1",
