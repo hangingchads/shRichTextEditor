@@ -96,9 +96,12 @@ describe('root', function () {
 
     it('should handle keyUp events (field is required)', function() {
         let value = '';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        expect(root.state.value).toBe(value);
+        expect(value).toBe('');
         root.handleKeyUp({key: '1'});
         expect(root.state.classList.empty).toBe(true);
         expect(root.state.classList.showRequired).toBe(true);
@@ -106,10 +109,10 @@ describe('root', function () {
 
     it('works a field is required', function () {
         let value = '0';
-        let changeMe = () => {
-            value = 1;
+        let changeMe = (newVal) => {
+            value = newVal;
         };
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor required value={value} onChange={changeMe}/>);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor required value={value} onChange={changeMe} />);
         let rootNode = ReactDOM.findDOMNode(root);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
@@ -117,11 +120,11 @@ describe('root', function () {
     });
 
     it('the required label should not show up if the field is not required', function () {
-        let what = '';
-        let changeMe = () => {
-            value = 1;
+        let value = '';
+        let changeMe = (newVal) => {
+            value = newVal;
         };
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={what} onChange={changeMe}/>);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         expect(root.state).toBeTruthy();
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.focus(input);
@@ -132,14 +135,20 @@ describe('root', function () {
 
     it('should have a validator function', function() {
         let value = '0';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
         expect(root.validate().isValid).toBe(true);
     });
 
     it('should fail validator if there is no value and field is required', function() {
         let value = '';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} required />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
         expect(root.validate().isValid).toBe(false);
     });
@@ -149,8 +158,11 @@ describe('root', function () {
         let validator = {
             register: _.noop,
         };
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
         spyOn(validator, 'register');
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} onChange={changeMe} required />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
         expect(validator.register).toHaveBeenCalled();
     });
@@ -161,8 +173,11 @@ describe('root', function () {
             register: _.noop,
             unregister: _.noop,
         };
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
         spyOn(validator, 'unregister');
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} onChange={changeMe} required />);
         ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(root).parentNode);
         expect(validator.unregister).toHaveBeenCalled();
     });
@@ -179,49 +194,65 @@ describe('root', function () {
             register: _.noop,
             unregister: _.noop,
         };
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
         spyOn(validator, 'unregister');
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} required />);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor validator={validator} value={value} onChange={changeMe} required />);
         root.validate(true);
         expect(root.state.classList.shTouched).toBe(true);
     });
 
     it('changing props should update state', function() {
-        let value = '<div>1</div>';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
+        let value = '';
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} required />);
+        expect(root.state.classList.empty).toBe(true);
         var props = {
             value: '<div>0</div>'
         };
         root.componentWillReceiveProps(props);
-        expect(root.state.value).toBe('<div>0</div>');
+        expect(root.state.classList.empty).toBe(false);
     });
 
     it('changing props without value should not update state', function() {
         let value = '<div>1</div>';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} required />);
-        expect(root.state.value).toBe(value);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} required />);
+        expect(value).toBe('<div>1</div>');
         var props = {};
         root.componentWillReceiveProps(props);
-        expect(root.state.value).toBe(value);
+        expect(value).toBe('<div>1</div>');
     });
 
     it('calling clearText() should clear out the text area', function() {
         let value = 'test';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.state.value).toBe('<div style=""><br></div>');
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('should set the default font and size', function() {
         let value = '';
         let defaultFont = 'Verdana';
         let defaultFontSize = 'Large';
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} defaultFont={defaultFont} defaultFontSize={defaultFontSize} />);
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} defaultFont={defaultFont} defaultFontSize={defaultFontSize} />);
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(root.state.value).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
+        expect(value).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
     });
 
     it('should validate when updating the text', function () {
@@ -230,8 +261,11 @@ describe('root', function () {
             validate: _.noop,
             register: _.noop
         };
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
         spyOn(validator, 'validate');
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} validator={validator} />);
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} validator={validator} onChange={changeMe} />);
         root.handleChange({
             target: {
                 value: 'the fat lazy cat'
