@@ -124,7 +124,7 @@ class ShRichTextEditor extends React.Component {
         let isEmpty = this.isEmpty(this.getEditor().getText().trim());
         var newState = _.clone(this.state);
         newState.classList.empty = isEmpty;
-        newState.classList.showRequired = ((isEmpty) && (this.props.required));
+        newState.classList.showRequired = (isEmpty && this.props.required);
         this.setState(newState);
     };
 
