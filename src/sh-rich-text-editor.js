@@ -215,7 +215,6 @@ class ShRichTextEditor extends React.Component {
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         onKeyUp={this.handleKeyUp}
-                        tabIndex="0"
                     />
                 </ReactQuill>
             </div>
