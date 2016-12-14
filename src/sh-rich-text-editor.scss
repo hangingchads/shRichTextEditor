@@ -207,7 +207,7 @@
 
                 li:before {
                     counter-increment: quill-counter;
-                    content: counter(quill-counter) ' ';
+                    content: counter(quill-counter) '. ';
                 }
             }
         }
