@@ -1,5 +1,4 @@
 @import '../node_modules/sh-core/src/base';
-@import '../node_modules/sh-core/src/reset';
 @import '../node_modules/quill/dist/quill.snow.css';
 
 .sh-rich-text-editor {
@@ -194,21 +193,13 @@
 
         .ql-editor {
             padding: 18px 12px 0 6px;
-            counter-reset: quill-counter;
 
             ul {
-                li:before {
-                    content: '• ';
-                }
+                list-style-type: disc !important;
             }
 
             ol {
-                list-style-type: decimal;
-
-                li:before {
-                    counter-increment: quill-counter;
-                    content: counter(quill-counter) '. ';
-                }
+                list-style-type: decimal !important;
             }
         }
     }
