@@ -250,6 +250,36 @@ describe('root', function () {
         expect(value).toBe('<div style=""><br></div>');
     });
 
+    it('should focus the editor when calling the component\'s focus method', function() {
+        let value = 'test';
+        let callbacks = {
+            changeMe: _.noop,
+            focusMe: _.noop
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={callbacks.changeMe} onFocus={callbacks.focusMe} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
+        spyOn(callbacks, 'focusMe');
+        TestUtils.Simulate.blur(input);
+        root.focus();
+        expect(root.state.classList.focused).toBe(true);
+        expect(callbacks.focusMe).not.toHaveBeenCalled();
+    });
+
+    it('should blur the editor when calling the component\'s blur method', function() {
+        let value = 'test';
+        let callbacks = {
+            changeMe: _.noop,
+            blurMe: _.noop
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={callbacks.changeMe} onBlur={callbacks.blurMe} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
+        spyOn(callbacks, 'blurMe');
+        TestUtils.Simulate.focus(input);
+        root.blur();
+        expect(root.state.classList.focused).toBe(false);
+        expect(callbacks.blurMe).not.toHaveBeenCalled();
+    });
+
     it('should set the default font and size', function() {
         let value = '';
         let defaultFont = 'Verdana';

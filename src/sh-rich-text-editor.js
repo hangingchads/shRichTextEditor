@@ -98,26 +98,13 @@ class ShRichTextEditor extends React.Component {
     };
 
     handleFocus(event) {
+        this.focus();
         this.props.onFocus(event);
-        var newState = _.clone(this.state);
-        newState.classList.shTouched = true;
-        newState.classList.focused = true;
-        newState.classList.prompt = false;
-        this.setState(newState);
-        this.refs.quill.focus();
     };
 
     handleBlur(event) {
-        this.validate();
+        this.blur();
         this.props.onBlur(event);
-        let isEmpty = this.isEmpty(this.getEditor().getText().trim());
-        var newState = _.clone(this.state);
-        newState.classList.empty = isEmpty;
-        newState.classList.focused = false;
-        newState.classList.showRequired = (isEmpty && this.props.required);
-        newState.classList.prompt = isEmpty;
-        this.setState(newState);
-        this.refs.quill.blur();
     };
 
     handleKeyUp(event) {
@@ -127,6 +114,27 @@ class ShRichTextEditor extends React.Component {
         newState.classList.showRequired = (isEmpty && this.props.required);
         this.setState(newState);
     };
+
+    focus() {
+        var newState = _.clone(this.state);
+        newState.classList.shTouched = true;
+        newState.classList.focused = true;
+        newState.classList.prompt = false;
+        this.setState(newState);
+        this.refs.quill.focus();
+    }
+    
+    blur() {
+        this.validate();
+        let isEmpty = this.isEmpty(this.getEditor().getText().trim());
+        var newState = _.clone(this.state);
+        newState.classList.empty = isEmpty;
+        newState.classList.focused = false;
+        newState.classList.showRequired = (isEmpty && this.props.required);
+        newState.classList.prompt = isEmpty;
+        this.setState(newState);
+        this.refs.quill.blur();
+    }
 
     getEditor() {
         return this.refs.quill.getEditor();
@@ -207,7 +215,6 @@ class ShRichTextEditor extends React.Component {
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         onKeyUp={this.handleKeyUp}
-                        tabIndex="0"
                     />
                 </ReactQuill>
             </div>

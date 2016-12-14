@@ -1,3 +1,4 @@
+@import '../node_modules/css-wipe/dest/bundle.css';
 @import '../node_modules/sh-core/src/base';
 @import '../node_modules/quill/dist/quill.snow.css';
 
@@ -193,6 +194,22 @@
 
         .ql-editor {
             padding: 18px 12px 0 6px;
+            counter-reset: quill-counter;
+
+            ul {
+                li:before {
+                    content: '• ';
+                }
+            }
+
+            ol {
+                list-style-type: decimal;
+
+                li:before {
+                    counter-increment: quill-counter;
+                    content: counter(quill-counter) ' ';
+                }
+            }
         }
     }
 
