@@ -8,18 +8,25 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'This is a test'
+            text: '<div style="color:red">This is a test</div>'
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateText = this.updateText.bind(this);
     }
 
     handleChange(newVal) {
         console.log('Called handleChange()');
         this.state.text = newVal;
         this.setState(this.state);
+    }
+
+    updateText(){
+        this.setState({
+            text: 'this is the new text'
+        })
     }
 
     handleFocus(event) {
@@ -47,6 +54,7 @@ class App extends React.Component {
                         onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" defaultFont="Serif" defaultFontSize="Large" />
                     <button type="submit">Done</button>
                 </ShForm>
+                <button className="sh-btn" onClick={this.updateText}>Update Value</button>
             </div>
         );
     }

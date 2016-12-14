@@ -4,7 +4,6 @@ import ShCore from 'sh-core';
 import * as _ from 'lodash';
 import './sh-rich-text-editor.scss';
 
-
 class ShRichTextEditor extends React.Component {
 
     constructor(props) {
@@ -28,7 +27,7 @@ class ShRichTextEditor extends React.Component {
     }
 
     validate(onSubmit) {
-        var newState = _.clone(this.state);
+        let newState = _.clone(this.state);
         if (onSubmit) {
             newState.classList.shTouched = true;
         }
@@ -60,7 +59,7 @@ class ShRichTextEditor extends React.Component {
 
     componentWillReceiveProps(props) {
         if (!_.isUndefined(props.value) && !_.isEqual(props.value, this.getEditor().getHTML())) {
-            var newState = _.clone(this.state);
+            let newState = _.clone(this.state);
             newState.classList.empty = this.isEmpty(props.value);
             newState.classList.prompt = this.isEmpty(props.value);
             this.setState(newState, this.validate);
@@ -109,25 +108,25 @@ class ShRichTextEditor extends React.Component {
 
     handleKeyUp(event) {
         let isEmpty = this.isEmpty(this.getEditor().getText().trim());
-        var newState = _.clone(this.state);
+        let newState = _.clone(this.state);
         newState.classList.empty = isEmpty;
         newState.classList.showRequired = (isEmpty && this.props.required);
         this.setState(newState);
     };
 
     focus() {
-        var newState = _.clone(this.state);
+        let newState = _.clone(this.state);
         newState.classList.shTouched = true;
         newState.classList.focused = true;
         newState.classList.prompt = false;
         this.setState(newState);
         this.refs.quill.focus();
     }
-    
+
     blur() {
         this.validate();
         let isEmpty = this.isEmpty(this.getEditor().getText().trim());
-        var newState = _.clone(this.state);
+        let newState = _.clone(this.state);
         newState.classList.empty = isEmpty;
         newState.classList.focused = false;
         newState.classList.showRequired = (isEmpty && this.props.required);
@@ -145,13 +144,13 @@ class ShRichTextEditor extends React.Component {
         this.getEditor().setHTML(defaultText);
         this.handleChange(defaultText);
     };
-    
+
     isEmpty(value) {
         return ((value === '') || (value === '<div></div>') || (value === '<div><br></div>') || (value === '<div><br> </div>'));
     };
 
     setDefaultStyle(value, toolbarItems) {
-        let { defaultFont, defaultFontSize } = this.props;
+        let {defaultFont, defaultFontSize} = this.props;
 
         if (this.isEmpty(value)) {
             let defaultText = '<div style="';
@@ -174,7 +173,7 @@ class ShRichTextEditor extends React.Component {
     };
 
     render() {
-        var {
+        let {
             value,
             label,
             onFocus,
@@ -189,19 +188,20 @@ class ShRichTextEditor extends React.Component {
         value = this.setDefaultStyle(value, toolbarItems);
 
         return (
-            <div id="react-quill-editor" className={this.props.className ? ShCore.getClassNames(this.state.classList) + ' ' + this.props.className : ShCore.getClassNames(this.state.classList)}>
+            <div id="react-quill-editor"
+                 className={this.props.className ? ShCore.getClassNames(this.state.classList) + ' ' + this.props.className : ShCore.getClassNames(this.state.classList)}>
                 <ReactQuill ref="quill"
-                    className="sh-rich-text-editor-quill"
-                    theme="snow"
-                    value={value}
-                    onChange={this.handleChange}
-                    onChangeSelection={this.handleChangeSelection}
-                    {...other}
+                            className="sh-rich-text-editor-quill"
+                            theme="snow"
+                            value={value}
+                            onChange={this.handleChange}
+                            onChangeSelection={this.handleChangeSelection}
+                            {...other}
                 >
                     <ReactQuill.Toolbar
                         key="toolbar"
                         ref="toolbar"
-                        items={toolbarItems} 
+                        items={toolbarItems}
                     />
                     <div className="quill-contents-label">
                         <span className="label">{label}</span>
@@ -211,7 +211,7 @@ class ShRichTextEditor extends React.Component {
                         key="editor"
                         ref="editor"
                         className="quill-contents"
-                        dangerouslySetInnerHTML={{ __html: value }}
+                        dangerouslySetInnerHTML={{__html: value}}
                         onFocus={this.handleFocus}
                         onBlur={this.handleBlur}
                         onKeyUp={this.handleKeyUp}
@@ -224,49 +224,49 @@ class ShRichTextEditor extends React.Component {
 
 function getToolbarConfig() {
 
-  let toolbar = _.cloneDeep(ReactQuill.Toolbar.defaultItems);
+    let toolbar = _.cloneDeep(ReactQuill.Toolbar.defaultItems);
 
-  let fontsToAdd = [
-    { label: 'Arial', value: 'Arial, sans-serif' },
-    { label: 'Comic Sans MS', value: 'Comic Sans MS, cursive' },
-    { label: 'Georgia', value: 'Georgia, serif' },
-    { label: 'Impact', value: 'Impact, sans-serif' },
-    { label: 'Tahoma', value: 'Tahoma, sans-serif' },
-    { label: 'Verdana', value: 'Verdana, sans-serif' },
-    { label: 'Calibri', value: 'Calibri, san-serif' },
-    { label: 'Times New Roman', value: 'Times New Roman, serif' }
-  ].sort(function (a, b) {
-    return a.label > b.label;
-  })
+    let fontsToAdd = [
+        {label: 'Arial', value: 'Arial, sans-serif'},
+        {label: 'Comic Sans MS', value: 'Comic Sans MS, cursive'},
+        {label: 'Georgia', value: 'Georgia, serif'},
+        {label: 'Impact', value: 'Impact, sans-serif'},
+        {label: 'Tahoma', value: 'Tahoma, sans-serif'},
+        {label: 'Verdana', value: 'Verdana, sans-serif'},
+        {label: 'Calibri', value: 'Calibri, san-serif'},
+        {label: 'Times New Roman', value: 'Times New Roman, serif'}
+    ].sort(function (a, b) {
+        return a.label > b.label;
+    })
 
-  toolbar[0].items[0].items = [
-    ...toolbar[0].items[0].items,
-    ...fontsToAdd
-  ];
-  
-  // Remove strikethrough option
-  toolbar[1].items.splice(2, 1);
-  
-  //remove link option
-  toolbar[1].items.pop();
+    toolbar[0].items[0].items = [
+        ...toolbar[0].items[0].items,
+        ...fontsToAdd
+    ];
 
-  //remove image option
-  toolbar.pop();
+    // Remove strikethrough option
+    toolbar[1].items.splice(2, 1);
 
-  return toolbar;
+    //remove link option
+    toolbar[1].items.pop();
+
+    //remove image option
+    toolbar.pop();
+
+    return toolbar;
 }
 
 ShRichTextEditor.propTypes = {
-  value: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string,
-  onChange: React.PropTypes.func.isRequired,
-  onChangeSelection: React.PropTypes.func,
-  onFocus: React.PropTypes.func,
-  toolbarItems: React.PropTypes.array,
-  validator: React.PropTypes.object,
-  required: React.PropTypes.bool,
-  defaultFont: React.PropTypes.string,
-  defaultFontSize: React.PropTypes.string
+    value: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string,
+    onChange: React.PropTypes.func.isRequired,
+    onChangeSelection: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    toolbarItems: React.PropTypes.array,
+    validator: React.PropTypes.object,
+    required: React.PropTypes.bool,
+    defaultFont: React.PropTypes.string,
+    defaultFontSize: React.PropTypes.string
 }
 
 ShRichTextEditor.defaultProps = {
