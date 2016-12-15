@@ -197,7 +197,7 @@ class ShRichTextEditor extends React.Component {
                             formats={quillFormats}
                             value={value}
                             onFocus={this.handleComponentFocus}
-                            onBlur={this.handleComponentFocus}
+                            onBlur={this.handleComponentBlur}
                             onChange={this.handleChange}
                             onChangeSelection={this.handleChangeSelection}
                             toolbar={false}
