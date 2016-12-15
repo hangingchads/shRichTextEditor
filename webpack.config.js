@@ -45,8 +45,8 @@ module.exports = {
                 loaders: ['babel-loader']
             },
             {
-                test: /\.html$/,
-                loader: "file?name=[name].[ext]",
+                test: /\.html|\.woff|\.ttf|\.eot$/,
+                loader: "file-loader?name=[name].[ext]",
             },
             {
                 test: /\.s?css$/,
