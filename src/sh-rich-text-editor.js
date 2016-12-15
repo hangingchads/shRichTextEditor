@@ -147,16 +147,15 @@ class ShRichTextEditor extends React.Component {
 
     getDefaultStyle(value) {
         let { defaultFont, defaultFontSize } = this.props;
-
-        if (this.isEmpty(value)) {
-            let defaultText = '<p style="';
+        if ((value === '') || (value === '<p></p>') || (value === '<p><br></p>')) {
+            let defaultText = '<p><span style="';
             if (defaultFont !== '') {
                 defaultText += 'font-family: ' + defaultFont + ';';
             }
             if (defaultFontSize !== '') {
-                defaultText += 'font-size: ' + defaultFontSize + ';';
+                defaultText += ' font-size: ' + defaultFontSize + ';';
             }
-            defaultText += '"><br></p>';
+            defaultText += '">&nbsp;</span></p>';
             return defaultText;
         }
         return value;
@@ -214,11 +213,12 @@ class ShRichTextEditor extends React.Component {
 }
 
 function getQuillModules() {
-	let fontsToAdd = ['Arial', 'Comic Sans MS', 'Georgia', 'Impact', 'Tahoma', 'Verdana', 'Calibri', 'Times New Roman'];
+	let fontsToAdd = ['Arial', 'Calibri', 'Comic Sans MS', 'Georgia', 'Impact', 'Monospace',
+        'Sans-Serif', 'Serif', 'Tahoma', 'Times New Roman', 'Verdana'];
   
 	return {
       toolbar: [ 
-          [{'font': []}, {'size': ['small', 'medium', 'large', 'huge']}],
+          [{'font': fontsToAdd}, {'size': ['small', 'medium', 'large', 'huge']}],
           ['bold', 'italic', 'underline', 'strike'],
           [{ 'align': [] }],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}], 

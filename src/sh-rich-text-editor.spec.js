@@ -100,7 +100,7 @@ describe('root', function () {
         expect(value).toBe('1');
         root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
         root.handleKeyUp({key: 'Backspace'});
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<p><span style="">&nbsp;</span></p>');
     });
 
     it('should handle keyUp events (field is required)', function() {
@@ -113,7 +113,7 @@ describe('root', function () {
         expect(value).toBe('1');
         root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
         root.handleKeyUp({key: 'Backspace'});
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<p><span style="">&nbsp;</span></p>');
     });
 
     it('works a field is required', function () {
@@ -247,7 +247,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<p><span style="">&nbsp;</span></p>');
     });
 
     it('should focus the editor when calling the component\'s focus method', function() {
@@ -291,7 +291,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(value).toBe('<p style="font-family: Verdana;font-size: Large;"><br></p>');
+        expect(value).toBe('<p><span style="font-family: Verdana; font-size: Large;">&nbsp;</span></p>');
     });
 
     it('should validate when updating the text', function () {
