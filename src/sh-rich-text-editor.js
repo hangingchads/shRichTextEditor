@@ -1,4 +1,5 @@
 import React from 'react';
+import Quill from 'quill';
 import ReactQuill from 'react-quill';
 import ShCore from 'sh-core';
 import * as _ from 'lodash';
@@ -106,6 +107,14 @@ class ShRichTextEditor extends React.Component {
         this.props.onBlur(event);
     };
 
+    handleComponentFocus() {
+        this.refs.quill.focus();
+    }
+
+    handleComponentBlur() {
+        this.refs.quill.blur();
+    }
+
     handleKeyUp(event) {
         let isEmpty = this.isEmpty(this.refs.quill.getEditorContents().trim());
         var newState = _.clone(this.state);
@@ -120,7 +129,6 @@ class ShRichTextEditor extends React.Component {
         newState.classList.focused = true;
         newState.classList.prompt = false;
         this.setState(newState);
-        this.refs.quill.focus();
     }
 
     blur() {
@@ -184,13 +192,16 @@ class ShRichTextEditor extends React.Component {
                 <ReactQuill ref="quill"
                             className="sh-rich-text-editor-quill"
                             theme="snow"
-                            bounds={"quill-contents"}
+                            bounds={".quill-contents"}
                             modules={quillModules}
                             formats={quillFormats}
                             value={value}
+                            onFocus={this.handleComponentFocus}
+                            onBlur={this.handleComponentFocus}
                             onChange={this.handleChange}
                             onChangeSelection={this.handleChangeSelection}
                             toolbar={false}
+                            tabindex="-1"
                             {...other}
                 >
                     <div
