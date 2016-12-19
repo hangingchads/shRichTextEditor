@@ -2,10 +2,12 @@ module.exports = {
     entry: './example/App.js',
     output: {
         path: './bin',
-        filename: 'example.js',
+        filename: 'example.js'
+    },
+    node: {
+        fs: "empty"
     },
     module: {
-        noParse: /node_modules\/quill\/dist/,
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -24,6 +26,10 @@ module.exports = {
                 test: /\.(ttf|eot|svg|jpg|png|woff)$/,
                 loader: "url-loader"
             },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }
         ],
     }
 };
