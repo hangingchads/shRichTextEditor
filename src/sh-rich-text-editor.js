@@ -16,8 +16,10 @@ class ShRichTextEditor extends React.Component {
                 showRequired: false,
                 prompt: true
             },
-            validStatus: 'unknown'
+            validStatus: 'unknown',
+            selection: null
         };
+        this.clearFormatting = this.clearFormatting.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeSelection = this.handleChangeSelection.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
@@ -93,6 +95,11 @@ class ShRichTextEditor extends React.Component {
     };
 
     handleChangeSelection(range, oldRange, source) {
+        if (range) {
+            let newState = _.clone(this.state);
+            newState.selection = range;
+            this.setState(newState);
+        }
         this.props.onChangeSelection(range, oldRange, source);
     };
 
@@ -121,7 +128,7 @@ class ShRichTextEditor extends React.Component {
         newState.classList.prompt = false;
         this.setState(newState);
         this.refs.quill.focus();
-    }
+    };
 
     blur() {
         this.validate();
@@ -133,7 +140,7 @@ class ShRichTextEditor extends React.Component {
         newState.classList.prompt = isEmpty;
         this.setState(newState);
         this.refs.quill.blur();
-    }
+    };
 
     getEditor() {
         return this.refs.quill.getEditor();
@@ -144,6 +151,27 @@ class ShRichTextEditor extends React.Component {
         this.getEditor().setHTML(defaultText);
         this.handleChange(defaultText);
     };
+
+    clearFormatting() {
+        if (this.state.selection !== null) {
+            this.getEditor().formatText(this.state.selection.start, this.state.selection.end, {
+                'bold':false,
+                'italic':false,
+                'strike':false,
+                'underline':false,
+                'font':false,
+                'size':false,
+                'color':false,
+                'background':false,
+                'link':false,
+                'code':false
+            });
+            this.getEditor().setSelection(0, 0);
+            let newState = _.clone(this.state);
+            newState.selection = null;
+            this.setState(newState);
+        }
+    }
 
     isEmpty(value) {
         return ((value === '') || (value === '<div></div>') || (value === '<div><br></div>') || (value === '<div><br> </div>'));
@@ -182,6 +210,8 @@ class ShRichTextEditor extends React.Component {
             toolbarItems,
             defaultFont,
             defaultFontSize,
+            onChange,
+            onChangeSelection,
             ...other
         } = this.props;
 
@@ -194,6 +224,7 @@ class ShRichTextEditor extends React.Component {
                             className="sh-rich-text-editor-quill"
                             theme="snow"
                             value={value}
+                            onClick={this.handleClick}
                             onChange={this.handleChange}
                             onChangeSelection={this.handleChangeSelection}
                             {...other}
@@ -216,6 +247,7 @@ class ShRichTextEditor extends React.Component {
                         onBlur={this.handleBlur}
                         onKeyUp={this.handleKeyUp}
                     />
+                    <div className="ql-format-button ql-remove" title="Remove" onClick={this.clearFormatting} />
                 </ReactQuill>
             </div>
         );

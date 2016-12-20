@@ -8,7 +8,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: '<div style="color:red">This is a test</div>'
+            text: '<div><span style="color:red">This is a test</span></div>'
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
@@ -23,7 +23,7 @@ class App extends React.Component {
         this.setState(this.state);
     }
 
-    updateText(){
+    updateText() {
         this.setState({
             text: 'this is the new text'
         })
@@ -50,11 +50,11 @@ class App extends React.Component {
         return (
             <div>
                 <ShForm onSubmit={this.handleSubmit}>
-                    <ShRichTextEditor value={this.state.text} required={true} onChange={this.handleChange} onBlur={this.handleBlur}
+                    <ShRichTextEditor  value={this.state.text} required={true} onChange={this.handleChange} onBlur={this.handleBlur}
                         onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" defaultFont="Serif" defaultFontSize="Large" />
-                    <button type="submit">Done</button>
+                    <button type="submit">Done</button><br />
                 </ShForm>
-                <button className="sh-btn" onClick={this.updateText}>Update Value</button>
+                <button className="sh-btn" onClick={this.updateText}>Update Value</button><br />
             </div>
         );
     }

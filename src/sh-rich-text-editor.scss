@@ -83,9 +83,18 @@
         }
     }
 
+    .ql-remove {
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 24px;
+        height: 24px;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAIAAABvFaqvAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAE+SURBVDhP1ZMhkoQwEEXnbqDBo8CAR6FwCPAoFHg8B+AAHADPAThA5hfdsL2ZJLBVY/ardKfz6ncneakv6V+A1nUdhNq2LYqi6zqOhwEFXCpkAPkPxKVCBlCaplzu+57n8UoIBVwqdDOjcRzp8LZtnLLoBkTujBY0uUAYKtmBL07Z5QLhvgi07zun7HKBoigCpSxLjp2ygpZlITvTNHHKKSuormtQwjB80hdkBQEBEHAcHx55pRTo2vs2g+Z5PtrysaAMGWyaBmtQsixDKLs2gzBg1MEUxycIqqqKKNA9KM9z1OH6OT5c4FnKHyO7hswg9A+KNmaEQRAQJUkSzp6yDvtTV3fkS3sWP6C+76lOE03q2o3j+PIl7/GXI2x8iv49jR9joounxyH/4NPWcB6mrqmBpf3kP8zIrS+BlHoDpwTNajEvPQ0AAAAASUVORK5CYII=');
+    }
+
     .quill-toolbar.ql-toolbar {
         background: $color-box-background;
-        padding: 4px;
+        padding: 2px;
         margin-bottom: 10px;
         border-radius: $size-border-radius-small;
 
@@ -97,13 +106,14 @@
 
         .ql-picker.ql-font {
             width: 160px;
+            margin-left: 25px;
         }
 
         .ql-picker.ql-size {
             width: 90px;
         }
 
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 800px) {
             .ql-format-group:nth-of-type(1) {
                 .ql-font {
                     width: 100px;
@@ -117,7 +127,7 @@
             }
         }
 
-        @media only screen and (max-width: 800px) {
+        @media only screen and (max-width: 900px) {
             .ql-format-group:nth-of-type(1) {
                 .ql-font {
                     width: 110px;
@@ -131,7 +141,7 @@
             }
         }
 
-        @media only screen and (max-width: 900px) {
+        @media only screen and (max-width: 1000px) {
             .ql-format-group:nth-of-type(1) {
                 .ql-font {
                     width: 130px;
@@ -145,7 +155,7 @@
             }
         }
 
-        @media only screen and (max-width: 1000px) {
+        @media only screen and (max-width: 1100px) {
             .ql-format-group:nth-of-type(1) {
                 .ql-align {
                     display: none;
@@ -153,7 +163,7 @@
             }
         }
 
-        @media only screen and (max-width: 1100px) {
+        @media only screen and (max-width: 1200px) {
             .ql-format-group:nth-of-type(2) {
                 .ql-format-separator {
                     display: none;
@@ -169,7 +179,7 @@
             }
         }
 
-        @media only screen and (max-width: 1200px) {
+        @media only screen and (max-width: 1300px) {
             .ql-background + .ql-format-separator {
                 display: none;
             }
