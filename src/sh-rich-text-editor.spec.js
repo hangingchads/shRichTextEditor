@@ -250,6 +250,18 @@ describe('root', function () {
         expect(value).toBe('<div style=""><br></div>');
     });
 
+     it('calling clearFormatting() should clear out all text formatting', function() {
+        let value = '<div><span style="color:blue;font-size:24pt;">This is a test</span></div>';
+        let changeMe = (newVal) => {
+            value = newVal;
+        };
+        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} />);
+        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
+        TestUtils.Simulate.blur(input);
+        root.clearFormatting();
+        expect(value).toBe('<div>This is a test</div>');
+    });
+
     it('should focus the editor when calling the component\'s focus method', function() {
         let value = 'test';
         let callbacks = {
