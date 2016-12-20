@@ -4,6 +4,9 @@ module.exports = {
         path: './bin',
         filename: 'example.js'
     },
+    node: {
+        fs: "empty"
+    },
     module: {
         loaders: [
             {
@@ -23,6 +26,10 @@ module.exports = {
                 test: /\.(ttf|eot|svg|jpg|png|woff)$/,
                 loader: "url-loader"
             },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }
         ],
     }
 };

@@ -10,6 +10,9 @@ module.exports = {
         library: '[name]',
         libraryTarget: 'umd',
     },
+    node: {
+        fs: "empty"
+    },
     externals: [
         {
             react: {
@@ -44,13 +47,17 @@ module.exports = {
                 loaders: ['babel-loader']
             },
             {
-                test: /\.html$/,
-                loader: "file?name=[name].[ext]",
+                test: /\.html|\.woff|\.ttf|\.eot$/,
+                loader: "file-loader?name=[name].[ext]",
             },
             {
                 test: /\.s?css$/,
                 loaders: ['style-loader', 'css-loader', 'sass-loader']
             },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            }
         ],
     }
 };
