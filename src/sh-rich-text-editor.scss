@@ -13,7 +13,7 @@
     .quill-contents-label {
         position: absolute;
         left: 0;
-        top: 38px;
+        top: 45px;
         width: 100%;
         padding-left: 5px;
         padding-right: 5px;
@@ -85,8 +85,8 @@
 
     .ql-toolbar {
         background: $color-box-background;
-        padding: 1px;
-        margin-bottom: 5px;
+        padding: 2px;
+        margin-bottom: 10px;
         border-radius: $size-border-radius-small;
 
         .ql-picker-label {
@@ -124,14 +124,10 @@
          }
 			
         @media only screen and (max-width: 1000px) {
-        	.ql-formats {
-        	    margin-right: 0;
-        	}
-
-            .ql-formats:nth-of-type(7) {
-                display: none;
-           }        		
-            
+        		.ql-formats {
+        			margin-right: 0;
+        		}
+        		
            .ql-formats:nth-of-type(1) {
                 .ql-picker.ql-font {
                     width: 100px;
@@ -145,7 +141,7 @@
            }
         }
 
-        @media only screen and (max-width: 1200px) {
+        @media only screen and (max-width: 1100px) {
            .ql-formats:nth-of-type(1) {
                 .ql-picker.ql-font {
                     width: 110px;
@@ -160,9 +156,9 @@
         }
 
         @media only screen and (max-width: 1200px) {
-        	.ql-formats {
-        		margin-right: 5px;
-        	}
+        			.ql-formats {
+        			margin-right: 5px;
+        		}
         		
            .ql-formats:nth-of-type(1) {
                 .ql-picker.ql-font {
@@ -182,7 +178,7 @@
         }
 
         @media only screen and (max-width: 1300px) {
-            .ql-formats {
+        .ql-formats {
         			margin-right: 10px;
         		}
         		
@@ -209,12 +205,6 @@
             .ql-formats:nth-of-type(5) {
                 display: none;
             }
-        }
-    }
-
-    .ql-toolbar.ql-snow {
-        .ql-formats {
-            margin-right: 7px;
         }
     }
 

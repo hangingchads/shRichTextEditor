@@ -234,8 +234,7 @@ function getQuillModules() {
           [{ 'align': [] }],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}], 
           [{ 'color': [] }, { 'background': [] }], 
-          ['link', 'image'],
-          ['clean']
+          ['link', 'image']
       ],
       clipboard: true
   };
@@ -249,8 +248,7 @@ function getQuillFormats() {
       "align",
       "list", "bullet", "indent",
       "color", "background",
-      "link", "image",
-      "clean"
+      "link", "image" 
   ];
 }
 
