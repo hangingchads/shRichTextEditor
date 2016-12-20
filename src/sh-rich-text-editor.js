@@ -224,8 +224,7 @@ function getQuillModules() {
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}], 
           [{ 'color': [] }, { 'background': [] }], 
           ['link', 'image']
-      ],
-      clipboard: true
+      ]
   };
 }
 
