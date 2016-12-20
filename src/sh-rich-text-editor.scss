@@ -83,9 +83,9 @@
         }
     }
 
-    .ql-toolbar {
+    .quill-toolbar.ql-toolbar {
         background: $color-box-background;
-        padding: 2px;
+        padding: 4px;
         margin-bottom: 10px;
         border-radius: $size-border-radius-small;
 
@@ -104,105 +104,77 @@
         }
 
         @media only screen and (max-width: 700px) {
-          .ql-formats:nth-of-type(1) {
-                .ql-picker.ql-font {
-                  display: none;
-                }
-           }
-         }
-         
-        @media only screen and (max-width: 800px) {
-          .ql-formats:nth-of-type(2) {
-                display: none;
-           }
-         }
-         
-        @media only screen and (max-width: 900px) {
-          .ql-formats:nth-of-type(6) {
-                display: none;
-           }
-         }
-			
-        @media only screen and (max-width: 1000px) {
-        		.ql-formats {
-        			margin-right: 0;
-        		}
-        		
-           .ql-formats:nth-of-type(1) {
-                .ql-picker.ql-font {
+            .ql-format-group:nth-of-type(1) {
+                .ql-font {
                     width: 100px;
                     font-size: 9px;
                 }
 
-                .ql-picker.ql-size {
+                .ql-size {
                     width: 60px;
                     font-size: 9px;
                 }
-           }
+            }
         }
 
-        @media only screen and (max-width: 1100px) {
-           .ql-formats:nth-of-type(1) {
-                .ql-picker.ql-font {
+        @media only screen and (max-width: 800px) {
+            .ql-format-group:nth-of-type(1) {
+                .ql-font {
                     width: 110px;
                     font-size: 10px;
                 }
 
-                .ql-picker.ql-size {
+                .ql-size {
                     width: 70px;
                     font-size: 10px;
                 }
-           }
+            }
         }
 
-        @media only screen and (max-width: 1200px) {
-        			.ql-formats {
-        			margin-right: 5px;
-        		}
-        		
-           .ql-formats:nth-of-type(1) {
-                .ql-picker.ql-font {
+        @media only screen and (max-width: 900px) {
+            .ql-format-group:nth-of-type(1) {
+                .ql-font {
                     width: 130px;
                     font-size: 12px;
                 }
 
-                .ql-picker.ql-size {
+                .ql-size {
                     width: 80px;
                     font-size: 12px;
                 }
-           }
-           
-           .ql-formats:nth-of-type(4) {
-                display: none;
-           }
+            }
         }
 
-        @media only screen and (max-width: 1300px) {
-        .ql-formats {
-        			margin-right: 10px;
-        		}
-        		
-           .ql-formats:nth-of-type(3) {
-                display: none;
-           }
-        }
-
-        @media only screen and (max-width: 1400px) {
-           .ql-formats:nth-of-type(2) {
-                .ql-strike {
+        @media only screen and (max-width: 1000px) {
+            .ql-format-group:nth-of-type(1) {
+                .ql-align {
                     display: none;
                 }
-           }
-           
-				.ql-formats:nth-of-type(4) {
-                .ql-indent {
-                    display: none;
-                }
-           }
+            }
         }
 
-        @media only screen and (max-width: 1500px) {
-            .ql-formats:nth-of-type(5) {
+        @media only screen and (max-width: 1100px) {
+            .ql-format-group:nth-of-type(2) {
+                .ql-format-separator {
+                    display: none;
+                }
+
+                .ql-color {
+                    display: none;
+                }
+
+                .ql-background {
+                    display: none;
+                }
+            }
+        }
+
+        @media only screen and (max-width: 1200px) {
+            .ql-background + .ql-format-separator {
+                display: none;
+            }
+
+            .ql-format-group:nth-of-type(3) {
                 display: none;
             }
         }

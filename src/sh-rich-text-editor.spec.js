@@ -66,7 +66,7 @@ describe('root', function () {
     });
 
     it('handle having outside onChangeSelection', function () {
-        let value = '<p>1</p>';
+        let value = '<div>1</div>';
         let selectionTest = 0;
         let selectMe = () => {
             selectionTest = 1;
@@ -100,7 +100,7 @@ describe('root', function () {
         expect(value).toBe('1');
         root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
         root.handleKeyUp({key: 'Backspace'});
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('should handle keyUp events (field is required)', function() {
@@ -113,7 +113,7 @@ describe('root', function () {
         expect(value).toBe('1');
         root.clearText();           // We have to "cheat" here because Quill doesn't handle keyUp events sent through React TestUtils
         root.handleKeyUp({key: 'Backspace'});
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('works a field is required', function () {
@@ -220,22 +220,22 @@ describe('root', function () {
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} required />);
         expect(root.state.classList.empty).toBe(true);
         var props = {
-            value: '<p>0</p>'
+            value: '<div>0</div>'
         };
         root.componentWillReceiveProps(props);
         expect(root.state.classList.empty).toBe(false);
     });
 
     it('changing props without value should not update state', function() {
-        let value = '<p>1</p>';
+        let value = '<div>1</div>';
         let changeMe = (newVal) => {
             value = newVal;
         };
         var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={changeMe} required />);
-        expect(value).toBe('<p>1</p>');
+        expect(value).toBe('<div>1</div>');
         var props = {};
         root.componentWillReceiveProps(props);
-        expect(value).toBe('<p>1</p>');
+        expect(value).toBe('<div>1</div>');
     });
 
     it('calling clearText() should clear out the text area', function() {
@@ -247,7 +247,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(value).toBe('<p style=""><br></p>');
+        expect(value).toBe('<div style=""><br></div>');
     });
 
     it('should focus the editor when calling the component\'s focus method', function() {
@@ -291,7 +291,7 @@ describe('root', function () {
         let input = TestUtils.findRenderedDOMComponentWithClass(root, 'quill-contents');
         TestUtils.Simulate.blur(input);
         root.clearText();
-        expect(value).toBe('<p style="font-family: Verdana;font-size: Large;"><br></p>');
+        expect(value).toBe('<div style="font-family: Verdana;font-size: Large;"><br></div>');
     });
 
     it('should validate when updating the text', function () {
