@@ -15,7 +15,6 @@ class App extends React.Component {
         this.handleBlur = this.handleBlur.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.updateText = this.updateText.bind(this);
-        this.clearText = this.clearText.bind(this);
     }
 
     handleChange(newVal) {
@@ -24,14 +23,10 @@ class App extends React.Component {
         this.setState(this.state);
     }
 
-    updateText() {
+    updateText(){
         this.setState({
             text: 'this is the new text'
         })
-    }
-
-    clearText() {
-        this.refs.editor.clearText();
     }
 
     handleFocus(event) {
@@ -55,12 +50,11 @@ class App extends React.Component {
         return (
             <div>
                 <ShForm onSubmit={this.handleSubmit}>
-                    <ShRichTextEditor ref="editor" value={this.state.text} required={true} onChange={this.handleChange} onBlur={this.handleBlur}
-                        onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" defaultFont="Impact" defaultFontSize="large" />
+                    <ShRichTextEditor value={this.state.text} required={true} onChange={this.handleChange} onBlur={this.handleBlur}
+                        onFocus={this.handleFocus} onChangeSelection={this.handleChangeSelection} label="Text" defaultFont="Serif" defaultFontSize="Large" />
                     <button type="submit">Done</button>
                 </ShForm>
-                <button className="sh-btn" onClick={this.updateText}>Update Value</button><br />
-                <button className="sh-btn" onClick={this.clearText}>Clear Value</button>
+                <button className="sh-btn" onClick={this.updateText}>Update Value</button>
             </div>
         );
     }
