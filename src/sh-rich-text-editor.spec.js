@@ -280,34 +280,6 @@ describe('root', function () {
         expect(callbacks.blurMe).not.toHaveBeenCalled();
     });
 
-    it('should focus the editor when focusing the component', function() {
-        let value = 'test';
-        let callbacks = {
-            focusMe: _.noop,
-            blurMe: _.noop
-        };
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={callbacks.changeMe} onFocus={callbacks.focusMe} />);
-        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        spyOn(callbacks, 'focusMe');
-        root.handleComponentFocus();
-        TestUtils.Simulate.focus(input);
-        expect(callbacks.focusMe).not.toHaveBeenCalled();
-    });
-
-    it('should blur the editor when bluring the component', function() {
-        let value = 'test';
-        let callbacks = {
-            changeMe: _.noop,
-            blurMe: _.noop
-        };
-        var root = TestUtils.renderIntoDocument(<ShRichTextEditor value={value} onChange={callbacks.changeMe} onBlur={callbacks.blurMe} />);
-        let input = TestUtils.findRenderedDOMComponentWithClass(root, 'sh-rich-text-editor-quill');
-        spyOn(callbacks, 'blurMe');
-        root.handleComponentBlur();
-        TestUtils.Simulate.blur(input);
-        expect(callbacks.blurMe).not.toHaveBeenCalled();
-    });
-
     it('should set the default font and size', function() {
         let value = '';
         let defaultFont = 'Verdana';
