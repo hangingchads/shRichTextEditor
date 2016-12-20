@@ -16,8 +16,7 @@ class ShRichTextEditor extends React.Component {
                 showRequired: false,
                 prompt: true
             },
-            validStatus: 'unknown',
-            selection: null
+            validStatus: 'unknown'
         };
         this.clearFormatting = this.clearFormatting.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -95,11 +94,6 @@ class ShRichTextEditor extends React.Component {
     };
 
     handleChangeSelection(range, oldRange, source) {
-        if (range) {
-            let newState = _.clone(this.state);
-            newState.selection = range;
-            this.setState(newState);
-        }
         this.props.onChangeSelection(range, oldRange, source);
     };
 
@@ -153,8 +147,7 @@ class ShRichTextEditor extends React.Component {
     };
 
     clearFormatting() {
-        if (this.state.selection !== null) {
-            this.getEditor().formatText(this.state.selection.start, this.state.selection.end, {
+        let formats = {
                 'bold':false,
                 'italic':false,
                 'strike':false,
@@ -164,14 +157,16 @@ class ShRichTextEditor extends React.Component {
                 'color':false,
                 'background':false,
                 'link':false,
-                'code':false
-            });
-            this.getEditor().setSelection(0, 0);
-            let newState = _.clone(this.state);
-            newState.selection = null;
-            this.setState(newState);
-        }
-    }
+                'code':false,
+                'indent':false,
+                'list':false,
+                'align':false,
+                'image':false
+        };
+        this.getEditor().formatText(0, this.getEditor().getLength(), formats);
+        this.getEditor().formatLine(0, this.getEditor().getLength(), formats);
+        this.getEditor().setSelection(0, 0);
+    };
 
     isEmpty(value) {
         return ((value === '') || (value === '<div></div>') || (value === '<div><br></div>') || (value === '<div><br> </div>'));
