@@ -10,9 +10,6 @@ module.exports = {
         library: '[name]',
         libraryTarget: 'umd',
     },
-    node: {
-        fs: "empty"
-    },
     externals: [
         {
             react: {
@@ -40,6 +37,7 @@ module.exports = {
         },
     ],
     module: {
+        noParse: /node_modules\/quill\/dist/,
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -54,10 +52,6 @@ module.exports = {
                 test: /\.s?css$/,
                 loaders: ['style-loader', 'css-loader', 'sass-loader']
             },
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
-            }
         ],
     }
 };
